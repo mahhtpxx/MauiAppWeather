@@ -1,4 +1,8 @@
-﻿namespace MauiAppWeather
+﻿using MauiAppWeather.Models;
+using MauiAppWeather.Services;
+using System.Threading.Tasks;
+
+namespace MauiAppWeather
 {
     public partial class MainPage : ContentPage
     {
@@ -9,16 +13,44 @@
             InitializeComponent();
         }
 
-        private void OnCounterClicked(object sender, EventArgs e)
+        private void InitializeComponent()
         {
-            count++;
+            throw new NotImplementedException();
+        }
 
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
+        private async Task Button_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                if(!string.IsNullOrEmpty(txt_cidade.Text))
+                {
+                    Tempo? t = await DataService.Getprevisao(txt_cidade.Text);
 
-            SemanticScreenReader.Announce(CounterBtn.Text);
+                    if (t != null) 
+                    {
+                        string dados_previsao = "";
+
+                        dados_previsao = $"Latitude: {t.lat}\n" +
+                                         $"Longitude: {t.lon}\n" +
+                                         $"Nascer do sol: {t.sunrise}\n" +
+                                         $"Pôr do sol: {t.sunset}\n" +
+                                         $"Temp Máx: {t.temp_max} \n" +
+                                         $"Temp Mín: {t.temp_min} \n";
+
+                    } else
+                    {
+                        lbl_res.Text = "Sem dados de previsão do tempo";
+                    }
+                }
+                else
+                {
+                    lbl_res.Text = "Preencha a cidade para obter a previsão do tempo";
+                }
+            }
+            catch (Exception ex)
+            {
+                DisplayAlert("Ops...", ex.Message, "OK");
+            }
         }
     }
 
