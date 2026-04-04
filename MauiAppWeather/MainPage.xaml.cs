@@ -23,10 +23,15 @@ namespace MauiAppWeather
                         string dados_previsao =
                             $"Latitude: {t.lat}\n" +
                             $"Longitude: {t.lon}\n" +
+                            $"Clima: {t.main}\n" +
+                            $"Descricao: {t.description}\n" +
                             $"Nascer do sol: {t.sunrise}\n" +
                             $"Pôr do sol: {t.sunset}\n" +
                             $"Temp Máx: {t.temp_max}\n" +
-                            $"Temp Mín: {t.temp_min}\n";
+                            $"Temp Mín: {t.temp_min}\n" +
+                            $"Visibilidade: {t.visibility}\n" +
+                            $"Velocidade do vento: {t.speed}\n" ;
+
 
                         lbl_res.Text = dados_previsao;
                     }
