@@ -1,5 +1,6 @@
 ﻿using MauiAppWeather.Models;
 using MauiAppWeather.Services;
+using Microsoft.Maui.Networking;
 
 namespace MauiAppWeather
 {
@@ -14,6 +15,13 @@ namespace MauiAppWeather
         {
             try
             {
+                if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
+                {
+                    await DisplayAlert("Sem internet", "Verifique sua conexão com a internet e tente novamente.", "OK");
+                    return;
+                }// Verificar se o usuário tem conexão com a internet, caso não, exibir um alerta informando que é necessário ter conexão para obter a previsão do tempo.
+
+
                 if (!string.IsNullOrEmpty(txt_cidade.Text))
                 {
                     Tempo? t = await DataService.Getprevisao(txt_cidade.Text);
